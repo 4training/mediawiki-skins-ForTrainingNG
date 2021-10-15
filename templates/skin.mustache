@@ -1,3 +1,196 @@
+<script defer async src="https://cdn-tailwindcss.vercel.app/"></script>
+<style>
+ @font-face {
+		font-family: "Material Icons";
+		font-style: normal;
+		font-weight: 400;
+		src: url(https://fonts.gstatic.com/s/materialicons/v109/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format("woff2");
+	}
+
+	.material-icons {
+		font-family: "Material Icons";
+		font-weight: normal;
+		font-style: normal;
+		font-size: 24px;
+		line-height: 1;
+		letter-spacing: normal;
+		text-transform: none;
+		display: inline-block;
+		white-space: nowrap;
+		word-wrap: normal;
+		direction: ltr;
+		font-feature-settings: "liga";
+		-moz-font-feature-settings: "liga";
+		-moz-osx-font-smoothing: grayscale;
+	}
+</style>
+<style type="text/tailwindcss">
+	body {
+		@apply grid sm:gap-x-5;
+    grid-template-areas:
+      "head head"
+      "aside main";
+    grid-template-columns: minmax(0, max-content) 1fr;
+  }
+  .topline {
+    z-index: 2;
+    grid-area: head;
+  }
+  .aside {
+    grid-area: aside;
+  }
+  main {
+    grid-area: main;
+  }
+  .nav-closed {
+    contain: size layout;
+    z-index: 2;
+  }
+  .nav {
+    & a {
+      @apply ml-4;
+    }
+
+    & h1 a {
+      @apply ml-0;
+    }
+  }
+  article > div {
+    @apply relative;
+    z-index: 1;
+  }
+
+  @media (min-width: 640px) {
+    .nav {
+      box-shadow: 1em 0 0 0 #fff,
+        1.25em 0 0 0 rgba(254, 242, 242, var(--tw-border-opacity));
+    }
+  }
+</style>
+<style>
+	/* Styles to fix the template */
+	
+</style>
+<script type="module">
+	let triggeredByEvent = false;
+	let isOpen = window.innerWidth > 1024;
+	let lastScrollY = 0;
+	const aside = document.querySelector("aside");
+	const main = document.querySelector("main");
+	toggleMenu.addEventListener("click", handleNavigation);
+	aside.addEventListener("transitionend", (e) =>
+		setTimeout(() => (triggeredByEvent = false))
+	);
+
+	openNav(isOpen);
+
+	function handleNavigation() {
+		triggeredByEvent = true;
+		openNav(!isOpen);
+	}
+
+	function openNav(value) {
+		if (value) {
+			lastScrollY = document.scrollingElement.scrollTop;
+		}
+		isOpen = value;
+
+		// Rotate Arrows
+		Array.from(toggleMenu.children, (i) => {
+			i.classList.remove("rotate-90", "-rotate-90");
+			i.classList.add(isOpen ? "-rotate-90" : "rotate-90");
+		});
+
+		// Transition classes for mobile, hide main content for mobile
+		aside.classList.remove("nav-closed");
+		if (value) {
+			aside.classList.add("w-max");
+			if (window.innerWidth < 640) {
+				main.classList.add("hidden");
+				document.scrollingElement.scrollTop = 0;
+			}
+		} else {
+			aside.classList.remove("w-max", "mobile-nav");
+			aside.classList.add("nav-closed");
+			setTimeout(() => {
+				main.classList.remove("hidden");
+				document.scrollingElement.scrollTop = lastScrollY;
+			});
+		}
+	}
+
+	// Little Observer to fix broken state while changeing view
+	const resizeObserver = new ResizeObserver((entries) => {
+		if (triggeredByEvent) return;
+
+		for (const entry of entries) {
+			const width = entry.contentBoxSize
+				? Array.isArray(entry.contentBoxSize)
+					? entry.contentBoxSize[0].inlineSize
+					: entry.contentBoxSize.inlineSize
+				: entry.contentRect.width;
+
+			if (width >= 640) {
+				openNav(true);
+			} else {
+				openNav(false);
+			}
+		}
+	});
+
+	resizeObserver.observe(document.body);
+</script>
+
+<div class="bg-red-500 w-full h-1 sticky top-0 mb-4 topline"></div>
+
+<aside class="aside ml-2 self-start sticky top-5 mb-8 w-0 bg-white">
+	<button
+		id="toggleMenu"
+		class="flex -space-x-7 filter drop-shadow-2xl bg-white rounded-full"
+		aria-label="Toggle Navigation"
+	>
+		<i
+			class="
+				material-icons
+				transition-all
+				transform
+				-rotate-90
+				filter
+				float-right
+				text-4xl
+			"
+			>expand_less</i
+		>
+		<i
+			class="
+				material-icons
+				transition-all
+				transform
+				-rotate-90
+				filter
+				float-right
+				text-4xl
+			"
+			>expand_less</i
+		>
+	</button>
+
+	<nav class="nav overflow-y-auto overflow-x-hidden -space-y-2">
+		{{#data-portlets-sidebar.data-portlets-first}}
+			{{>Portlet}}
+		{{/data-portlets-sidebar.data-portlets-first}}
+
+		{{#data-portlets-sidebar.array-portlets-rest}}
+			{{>Portlet}}
+		{{/data-portlets-sidebar.array-portlets-rest}}
+
+		{{#data-portlets.data-languages}}
+			{{>Portlet}}
+		{{/data-portlets.data-languages}}
+	</nav>
+</aside>
+
+
 <div id="mw-wrapper">
 	<div class="mw-body" id="content" role="main">
 		<div id="siteNotice">{{{html-site-notice}}}</div>
@@ -53,11 +246,7 @@
 			{{#data-actions}}{{>Portlet}}{{/data-actions}}
 		</div>
 		{{/data-portlets}}
-		<div id="site-navigation">
-			{{#data-portlets-sidebar.data-portlets-first}}{{>Portlet}}{{/data-portlets-sidebar.data-portlets-first}}
-			{{#data-portlets-sidebar.array-portlets-rest}}{{>Portlet}}{{/data-portlets-sidebar.array-portlets-rest}}
-			{{#data-portlets.data-languages}}{{>Portlet}}{{/data-portlets.data-languages}}
-		</div>
+		
 	</div>
 	<div id="footer" class="mw-footer" role="contentinfo" {{{html-user-language-attributes}}}>
 		{{#data-footer}}
