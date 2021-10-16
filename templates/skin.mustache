@@ -1,32 +1,106 @@
-<script defer async src="https://cdn-tailwindcss.vercel.app/"></script>
+<script
+  defer
+  async
+  src="https://cdn-tailwindcss.vercel.app/?plugins=typography"
+></script>
 <style>
- @font-face {
-		font-family: "Material Icons";
-		font-style: normal;
-		font-weight: 400;
-		src: url(https://fonts.gstatic.com/s/materialicons/v109/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format("woff2");
-	}
+  @font-face {
+    font-family: "Material Icons";
+    font-style: normal;
+    font-weight: 400;
+    src: url(https://fonts.gstatic.com/s/materialicons/v109/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2)
+      format("woff2");
+  }
 
-	.material-icons {
-		font-family: "Material Icons";
-		font-weight: normal;
-		font-style: normal;
-		font-size: 24px;
-		line-height: 1;
-		letter-spacing: normal;
-		text-transform: none;
-		display: inline-block;
-		white-space: nowrap;
-		word-wrap: normal;
-		direction: ltr;
-		font-feature-settings: "liga";
-		-moz-font-feature-settings: "liga";
-		-moz-osx-font-smoothing: grayscale;
-	}
+  .material-icons {
+    font-family: "Material Icons";
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    font-feature-settings: "liga";
+    -moz-font-feature-settings: "liga";
+    -moz-osx-font-smoothing: grayscale;
+  }
 </style>
+<script type="module">
+  let triggeredByEvent = false;
+  let isOpen = window.innerWidth > 1024;
+  let lastScrollY = 0;
+  const aside = document.querySelector("aside");
+  const main = document.querySelector("main");
+  toggleMenu.addEventListener("click", handleNavigation);
+  aside.addEventListener("transitionend", (e) =>
+    setTimeout(() => (triggeredByEvent = false))
+  );
+
+  openNav(isOpen);
+
+  function handleNavigation() {
+    triggeredByEvent = true;
+    openNav(!isOpen);
+  }
+
+  function openNav(value) {
+    if (value) {
+      lastScrollY = document.scrollingElement.scrollTop;
+    }
+    isOpen = value;
+
+    // Rotate Arrows
+    Array.from(toggleMenu.children, (i) => {
+      i.classList.remove("rotate-90", "-rotate-90");
+      i.classList.add(isOpen ? "-rotate-90" : "rotate-90");
+    });
+
+    // Transition classes for mobile, hide main content for mobile
+    aside.classList.remove("nav-closed");
+    if (value) {
+      aside.classList.add("w-max");
+      if (window.innerWidth < 640) {
+        main.classList.add("hidden");
+        document.scrollingElement.scrollTop = 0;
+      }
+    } else {
+      aside.classList.remove("w-max", "mobile-nav");
+      aside.classList.add("nav-closed");
+      setTimeout(() => {
+        main.classList.remove("hidden");
+        document.scrollingElement.scrollTop = lastScrollY;
+      });
+    }
+  }
+
+  // Little Observer to fix broken state while changeing view
+  const resizeObserver = new ResizeObserver((entries) => {
+    if (triggeredByEvent) return;
+
+    for (const entry of entries) {
+      const width = entry.contentBoxSize
+        ? Array.isArray(entry.contentBoxSize)
+          ? entry.contentBoxSize[0].inlineSize
+          : entry.contentBoxSize.inlineSize
+        : entry.contentRect.width;
+
+      if (width >= 640) {
+        openNav(true);
+      } else {
+        openNav(false);
+      }
+    }
+  });
+
+  resizeObserver.observe(document.body);
+</script>
 <style type="text/tailwindcss">
-	body {
-		@apply grid sm:gap-x-5;
+  body {
+    @apply grid sm:gap-x-5;
     grid-template-areas:
       "head head"
       "aside main";
@@ -46,15 +120,12 @@
     contain: size layout;
     z-index: 2;
   }
-  .nav {
-    & a {
-      @apply ml-4;
-    }
-
-    & h1 a {
-      @apply ml-0;
-    }
-  }
+	.nav a {
+		@apply ml-4;
+	}
+	.nav h1 a {
+		@apply ml-0;
+	}
   article > div {
     @apply relative;
     z-index: 1;
@@ -63,200 +134,163 @@
   @media (min-width: 640px) {
     .nav {
       box-shadow: 1em 0 0 0 #fff,
-        1.25em 0 0 0 rgba(254, 242, 242, var(--tw-border-opacity));
+        1.25em 0 0 0 rgba(254, 242, 242, 1);
     }
   }
 </style>
 <style>
-	/* Styles to fix the template */
-	
+  /* Styles to fix the template */
+  .nav .p-mainpage-description::before {
+    content: "home";
+  }
+  .nav .p-headnav-essentials::before {
+    content: "assignment";
+  }
+  .nav .p-headnav-more::before {
+    content: "more_horiz";
+  }
+  .nav .p-tb::before {
+    content: "assignment";
+  }
+  .nav .p-lang::before {
+    content: "language";
+  }
+  .nav .p-qa::before {
+    content: "question_answer";
+  }
+  .nav .p-contact::before {
+    content: "contact_page";
+  }
+  .nav .p-tb::before {
+    content: "handyman";
+  }
 </style>
-<script type="module">
-	let triggeredByEvent = false;
-	let isOpen = window.innerWidth > 1024;
-	let lastScrollY = 0;
-	const aside = document.querySelector("aside");
-	const main = document.querySelector("main");
-	toggleMenu.addEventListener("click", handleNavigation);
-	aside.addEventListener("transitionend", (e) =>
-		setTimeout(() => (triggeredByEvent = false))
-	);
-
-	openNav(isOpen);
-
-	function handleNavigation() {
-		triggeredByEvent = true;
-		openNav(!isOpen);
-	}
-
-	function openNav(value) {
-		if (value) {
-			lastScrollY = document.scrollingElement.scrollTop;
-		}
-		isOpen = value;
-
-		// Rotate Arrows
-		Array.from(toggleMenu.children, (i) => {
-			i.classList.remove("rotate-90", "-rotate-90");
-			i.classList.add(isOpen ? "-rotate-90" : "rotate-90");
-		});
-
-		// Transition classes for mobile, hide main content for mobile
-		aside.classList.remove("nav-closed");
-		if (value) {
-			aside.classList.add("w-max");
-			if (window.innerWidth < 640) {
-				main.classList.add("hidden");
-				document.scrollingElement.scrollTop = 0;
-			}
-		} else {
-			aside.classList.remove("w-max", "mobile-nav");
-			aside.classList.add("nav-closed");
-			setTimeout(() => {
-				main.classList.remove("hidden");
-				document.scrollingElement.scrollTop = lastScrollY;
-			});
-		}
-	}
-
-	// Little Observer to fix broken state while changeing view
-	const resizeObserver = new ResizeObserver((entries) => {
-		if (triggeredByEvent) return;
-
-		for (const entry of entries) {
-			const width = entry.contentBoxSize
-				? Array.isArray(entry.contentBoxSize)
-					? entry.contentBoxSize[0].inlineSize
-					: entry.contentBoxSize.inlineSize
-				: entry.contentRect.width;
-
-			if (width >= 640) {
-				openNav(true);
-			} else {
-				openNav(false);
-			}
-		}
-	});
-
-	resizeObserver.observe(document.body);
-</script>
 
 <div class="bg-red-500 w-full h-1 sticky top-0 mb-4 topline"></div>
 
 <aside class="aside ml-2 self-start sticky top-5 mb-8 w-0 bg-white">
-	<button
-		id="toggleMenu"
-		class="flex -space-x-7 filter drop-shadow-2xl bg-white rounded-full"
-		aria-label="Toggle Navigation"
-	>
-		<i
-			class="
-				material-icons
-				transition-all
-				transform
-				-rotate-90
-				filter
-				float-right
-				text-4xl
-			"
-			>expand_less</i
-		>
-		<i
-			class="
-				material-icons
-				transition-all
-				transform
-				-rotate-90
-				filter
-				float-right
-				text-4xl
-			"
-			>expand_less</i
-		>
-	</button>
+  <button
+    id="toggleMenu"
+    class="flex -space-x-7 filter drop-shadow-2xl bg-white rounded-full"
+    aria-label="Toggle Navigation"
+  >
+    <i
+      class="
+        material-icons
+        transition-all
+        transform
+        -rotate-90
+        filter
+        float-right
+				!text-4xl
+      "
+      >expand_less</i
+    >
+    <i
+      class="
+        material-icons
+        transition-all
+        transform
+        -rotate-90
+        filter
+        float-right
+        !text-4xl
+      "
+      >expand_less</i
+    >
+  </button>
 
-	<nav class="nav overflow-y-auto overflow-x-hidden -space-y-2">
-		{{#data-portlets-sidebar.data-portlets-first}}
-			{{>Portlet}}
-		{{/data-portlets-sidebar.data-portlets-first}}
-
-		{{#data-portlets-sidebar.array-portlets-rest}}
-			{{>Portlet}}
-		{{/data-portlets-sidebar.array-portlets-rest}}
-
-		{{#data-portlets.data-languages}}
-			{{>Portlet}}
-		{{/data-portlets.data-languages}}
-	</nav>
+  <nav class="nav overflow-y-auto overflow-x-hidden -space-y-2">
+    {{#data-portlets-sidebar.data-portlets-first}} {{>Portlet}}
+    {{/data-portlets-sidebar.data-portlets-first}}
+    {{#data-portlets-sidebar.array-portlets-rest}} {{>Portlet}}
+    {{/data-portlets-sidebar.array-portlets-rest}}
+    {{#data-portlets.data-languages}} {{>Portlet}}
+    {{/data-portlets.data-languages}}
+  </nav>
 </aside>
 
+<main
+  class="
+    px-5
+    pb-5
+    max-w-3xl
+    transition-all
+    md:mx-auto
+    lg:max-w-4xl
+    xl:max-w-6xl
+  "
+>
+  <article>
+    <div>
+      <picture>
+        <a href="/" aria-label="Zur Startseite">
+          <img
+            src="/mediawiki/skins/ForTraining/images/4training.png"
+            width="650"
+            height="101"
+            alt="4Training Schriftzug"
+          />
+        </a>
+      </picture>
 
-<div id="mw-wrapper">
-	<div class="mw-body" id="content" role="main">
-		<div id="siteNotice">{{{html-site-notice}}}</div>
-		{{{html-user-message}}}
-		<div class="mw-indicators mw-body-content">
-		{{#array-indicators}}
-		<div id="{{id}}" class="{{class}}">{{{html}}}</div>
-		{{/array-indicators}}
-		</div>
-		<h1 class="firstHeading" {{{html-user-language-attributes}}}>{{{html-title}}}</h1>
-		<div id="siteSub">{{msg-tagline}}</div>
-		<div class="mw-body-content">
-			<div id="contentSub">
-				{{{html-subtitle}}}
-				{{{html-undelete-link}}}
-			</div>
-			{{{html-body-content}}}
-			<!-- todo: replace with .mixin-clearfix -->
-			<div class="visualClear"></div>
-			{{{html-categories}}}
-		</div>
-		{{{html-after-content}}}
-	</div>
-	<div id="mw-navigation">
-		<h2>{{msg-navigation-heading}}</h2>
-		<div id="p-logo" class="mw-portlet" role="banner">
-			<a href="{{link-mainpage}}">
-			{{#data-logos}}
-				{{#icon}}<img src="{{.}}" width="40" height="40">{{/icon}}
-				{{#wordmark}}<img src="{{src}}" width="{{width}}" height="{{height}}">{{/wordmark}}
-				{{^wordmark}}<h1>{{msg-sitetitle}}</h1>{{/wordmark}}
-			{{/data-logos}}
-			</a>
-		</div>
-		{{#data-search-box}}
-		<form action="{{form-action}}" role="search" class="mw-portlet" id="p-search">
-			<input type="hidden" name="title" value="{{page-title}}">
-			<h3>
-				<label for="searchInput">{{msg-search}}</label>
-			</h3>
-			{{{html-input}}}
-			{{{html-button-search}}}
-		</form>
-		{{/data-search-box}}
-		{{#data-portlets}}
-		<div id="user-tools">
-			{{#data-personal}}{{>Portlet}}{{/data-personal}}
-		</div>
-		<div id="page-tools">
-			{{#data-namespaces}}{{>Portlet}}{{/data-namespaces}}
-			{{#data-variants}}{{>Portlet}}{{/data-variants}}
-			{{#data-views}}{{>Portlet}}{{/data-views}}
-			{{#data-actions}}{{>Portlet}}{{/data-actions}}
-		</div>
-		{{/data-portlets}}
-		
-	</div>
-	<div id="footer" class="mw-footer" role="contentinfo" {{{html-user-language-attributes}}}>
-		{{#data-footer}}
-		{{!}}{{#data-icons}}{{>FooterList}}{{/data-icons}}
-		{{!}}<div id="footer-list">
-		{{!}}{{#data-info}}{{>FooterList}}{{/data-info}}
-		{{!}}{{#data-places}}{{>FooterList}}{{/data-places}}
-		{{!}}</div>
-		{{/data-footer}}
-		<!-- todo: replace with .mixin-clearfix -->
-		<div class="visualClear"></div>
-	</div>
-</div>
+      <div
+        class="prose prose-sm my-10 sm:prose lg:prose-lg xl:prose-2xl mx-auto"
+      >
+				<div class="mb-2">
+					<i class="material-icons align-text-bottom">language</i>
+					<span>Artikelsprache: </span>
+					<a href="/de" class="uls-trigger">Deutsch</a>
+				</div>
+
+        <div class="isolate clear-both bg-white shadow flex mb-8">
+          <span class="w-auto flex justify-end items-center text-gray-500 p-2">
+            <i class="material-icons !text-3xl">search</i>
+          </span>
+          <label class="flex w-full">
+            <input
+              class="w-full rounded p-2"
+              type="search"
+              placeholder="Suche 'Schritte der Vergebung'"
+            />
+          </label>
+          <button
+            class="
+              bg-red-300
+              hover:bg-red-200
+              rounded
+              ml-1
+              py-2
+              px-4
+              text-lg text-red-900
+            "
+          >
+            Search
+          </button>
+        </div>
+
+        <div id="mw-wrapper">
+          <div class="mw-body" id="content" role="main">
+            <div id="siteNotice">{{{html-site-notice}}}</div>
+            {{{html-user-message}}}
+            <div class="mw-indicators mw-body-content">
+              {{#array-indicators}}
+              <div id="{{id}}" class="{{class}}">{{{html}}}</div>
+              {{/array-indicators}}
+            </div>
+            <h1 class="firstHeading" {{{html-user-language-attributes}}}>
+              {{{html-title}}}
+            </h1>
+            <div id="siteSub">{{msg-tagline}}</div>
+            <div class="mw-body-content">
+              <div id="contentSub">
+                {{{html-subtitle}}} {{{html-undelete-link}}}
+              </div>
+              {{{html-body-content}}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</main>
