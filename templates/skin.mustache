@@ -164,6 +164,9 @@
   .nav .p-tb::before {
     content: "handyman";
   }
+	.printfooter {
+		display: none;
+	}
 </style>
 
 <div class="bg-red-500 w-full h-1 sticky top-0 mb-4 topline"></div>
@@ -243,7 +246,7 @@
 					<a href="/de" class="uls-trigger">Deutsch</a>
 				</div>
 
-        <div class="isolate clear-both bg-white shadow flex mb-8">
+        <div class="isolate clear-both bg-white shadow flex mb-8 h-11">
           <span class="w-auto flex justify-end items-center text-gray-500 p-2">
             <i class="material-icons !text-3xl">search</i>
           </span>
@@ -270,13 +273,8 @@
         </div>
 
         <div id="mw-wrapper">
-          <div class="mw-body" id="content" role="main">
-            <div id="siteNotice">{{{html-site-notice}}}</div>
-            {{{html-user-message}}}
+          <div class="mw-body" id="content">
             <div class="mw-indicators mw-body-content">
-              {{#array-indicators}}
-              <div id="{{id}}" class="{{class}}">{{{html}}}</div>
-              {{/array-indicators}}
             </div>
             <h1 class="firstHeading" {{{html-user-language-attributes}}}>
               {{{html-title}}}
