@@ -10,9 +10,12 @@
 	"requires": {
 		"MediaWiki": ">= 1.35.0"
 	},
+	"AutoloadClasses": {
+		"ForTrainingNG\\SkinForTrainingNG": "SkinForTrainingNG.php"
+	},
 	"ValidSkinNames": {
 		"fortrainingng": {
-			"class": "SkinMustache",
+			"class": "ForTrainingNG\\SkinForTrainingNG",
 			"args": [ {
 				"name": "fortrainingng",
 				"responsive": true,
