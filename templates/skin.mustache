@@ -97,6 +97,12 @@
   });
 
   resizeObserver.observe(document.body);
+
+  document
+    .querySelector(".form input")
+    .addEventListener("input", ({ target }) => {
+      target.form.setAttribute("action", target.value);
+    });
 </script>
 <style type="text/tailwindcss">
   body {
@@ -120,12 +126,12 @@
     contain: size layout;
     z-index: 2;
   }
-	.nav a {
-		@apply ml-4;
-	}
-	.nav h1 a {
-		@apply ml-0;
-	}
+  .nav a {
+    @apply ml-4;
+  }
+  .nav h1 a {
+    @apply ml-0;
+  }
   article > div {
     @apply relative;
     z-index: 1;
@@ -133,12 +139,11 @@
 
   @media (min-width: 640px) {
     .nav {
-      box-shadow: 1em 0 0 0 #fff,
-        1.25em 0 0 0 rgba(254, 242, 242, 1);
+      box-shadow: 1em 0 0 0 #fff, 1.25em 0 0 0 rgba(254, 242, 242, 1);
     }
   }
 </style>
-<style>
+<style type="text/tailwindcss">
   /* Styles to fix the template */
   .nav .p-mainpage-description::before {
     content: "home";
@@ -164,9 +169,29 @@
   .nav .p-tb::before {
     content: "handyman";
   }
-	.printfooter {
-		display: none;
-	}
+  .printfooter {
+    @apply hidden;
+  }
+  .mw-pt-languages-list {
+    @apply pb-2;
+  }
+  .mw-pt-languages-list a {
+    @apply pt-2;
+    color: rgba(11, 18, 27, 0.7);
+  }
+  .mw-pt-languages-list + .mw-pt-languages-label {
+    @apply text-right;
+  }
+  .mw-parser-output table {
+    float: none;
+    width: 49% !important;
+    display: inline-block;
+    margin-bottom: 0;
+  }
+  .uls-trigger {
+    background-size: initial;
+    background-position: left center;
+  }
 </style>
 
 <div class="bg-red-500 w-full h-1 sticky top-0 mb-4 topline"></div>
@@ -185,7 +210,7 @@
         -rotate-90
         filter
         float-right
-				!text-4xl
+        !text-4xl
       "
       >expand_less</i
     >
@@ -225,70 +250,62 @@
   "
 >
   <article>
-    <div>
-      <picture>
-        <a href="/" aria-label="Zur Startseite">
-          <img
-            src="/mediawiki/skins/ForTraining/images/4training.png"
-            width="650"
-            height="101"
-            alt="4Training Schriftzug"
-          />
-        </a>
-      </picture>
+    <picture>
+			<img
+				src="/mediawiki/skins/ForTraining/images/4training.png"
+				width="650"
+				height="101"
+				alt="4Training Schriftzug"
+			/>
+    </picture>
+    <a href="/" aria-label="Zur Startseite"
+      ><img
+        class="absolute top-0 filter blur-3xl md:ml-0"
+        src="/mediawiki/skins/ForTraining/images/4training.png"
+        aria-hidden="true"
+        alt=""
+    /></a>
 
-      <div
-        class="prose prose-sm my-10 sm:prose lg:prose-lg xl:prose-2xl mx-auto"
-      >
-				<div class="mb-2">
-					<i class="material-icons align-text-bottom">language</i>
-					<span>Artikelsprache: </span>
-					<a href="/de" class="uls-trigger">Deutsch</a>
-				</div>
-
-        <div class="isolate clear-both bg-white shadow flex mb-8 h-11">
-          <span class="w-auto flex justify-end items-center text-gray-500 p-2">
-            <i class="material-icons !text-3xl">search</i>
-          </span>
-          <label class="flex w-full">
-            <input
-              class="w-full rounded p-2"
-              type="search"
-              placeholder="Suche 'Schritte der Vergebung'"
-            />
-          </label>
-          <button
-            class="
-              bg-red-300
-              hover:bg-red-200
-              rounded
-              ml-1
-              py-2
-              px-4
-              text-lg text-red-900
-            "
-          >
-            Search
-          </button>
-        </div>
-
-        <div id="mw-wrapper">
-          <div class="mw-body" id="content">
-            <div class="mw-indicators mw-body-content">
-            </div>
-            <h1 class="firstHeading" {{{html-user-language-attributes}}}>
-              {{{html-title}}}
-            </h1>
-            <div id="siteSub">{{msg-tagline}}</div>
-            <div class="mw-body-content">
-              <div id="contentSub">
-                {{{html-subtitle}}} {{{html-undelete-link}}}
-              </div>
-              {{{html-body-content}}}
-            </div>
-          </div>
-        </div>
+    <div class="prose prose-sm my-10 sm:prose lg:prose-lg xl:prose-2xl mx-auto">
+      <div class="mb-2 text-right">
+        <a href="/de" class="uls-trigger">Deutsch</a>
       </div>
+
+      <form
+        class="form isolate clear-both bg-white shadow flex mb-8 h-11"
+        action=""
+      >
+        <span class="w-auto flex justify-end items-center text-gray-500 p-2">
+          <i class="material-icons !text-3xl">search</i>
+        </span>
+        <label class="flex w-full">
+          <input
+            class="w-full rounded p-2"
+            type="search"
+            placeholder="Suche 'Schritte der Vergebung'"
+          />
+        </label>
+        <button
+          class="
+            bg-red-300
+            hover:bg-red-200
+            rounded
+            ml-1
+            py-2
+            px-4
+            text-lg text-red-900
+          "
+        >
+          Search
+        </button>
+      </form>
+
+      <h1 class="firstHeading" {{{html-user-language-attributes}}}>
+        {{{html-title}}}
+      </h1>
+      {{{html-body-content}}}
     </div>
+		<p class="text-center text-xl text-red-400"><a href="/Special:contact">Hast du noch Fragen oder Feedback? Komm mit uns ins Gespräch!</a></p>
+		<p class="mt-2"><a href="/Special:UserLogin">Login</a></p>
   </article>
 </main>
