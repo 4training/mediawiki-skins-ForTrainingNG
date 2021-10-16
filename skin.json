@@ -1,24 +1,24 @@
 {
-	"name": "Example",
+	"name": "ForTrainingNG",
 	"version": "1.0",
 	"author": "...",
-	"url": "https://www.mediawiki.org/wiki/Skin:Example",
-	"descriptionmsg": "example-desc",
-	"namemsg": "skinname-example",
+	"url": "https://github.com/4training/mediawiki-skins-ForTrainingNG",
+	"descriptionmsg": "fortrainingng-desc",
+	"namemsg": "skinname-fortrainingng",
 	"license-name": "CC0-1.0",
 	"type": "skin",
 	"requires": {
-		"MediaWiki": ">= 1.36.0"
+		"MediaWiki": ">= 1.35.0"
 	},
 	"ValidSkinNames": {
-		"example": {
+		"fortrainingng": {
 			"class": "SkinMustache",
 			"args": [ {
-				"name": "example",
+				"name": "fortrainingng",
 				"responsive": true,
-				"templateDirectory": "skins/Example/templates",
+				"templateDirectory": "skins/ForTrainingNG/templates",
 				"styles": [
-					"skins.example"
+					"skins.fortrainingng"
 				],
 				"messages": [
 					"sitetitle",
@@ -27,26 +27,24 @@
 					"navigation-heading"
 				],
 				"scripts": [
-					"skins.example.js"
+					"skins.fortraining.js"
 				]
 			} ]
 		}
 	},
 	"MessagesDirs": {
-		"Example": [
+		"ForTrainingNG": [
 			"i18n"
 		]
 	},
 	"ResourceModules": {
-		"skins.example": {
+		"skins.fortrainingng": {
 			"class": "ResourceLoaderSkinModule",
 			"features": {
 				"normalize": true,
 				"elements": true,
 				"content": true,
-				"content-parser-output": true,
 				"interface": true,
-				"interface-category": true,
 				"logo": true
 			},
 			"styles": {
@@ -64,7 +62,7 @@
 				}
 			}
 		},
-		"skins.example.js": {
+		"skins.fortrainingng.js": {
 			"scripts": [
 				"resources/main.js"
 			]
@@ -72,10 +70,10 @@
 	},
 	"ResourceFileModulePaths": {
 		"localBasePath": "",
-		"remoteSkinPath": "Example"
+		"remoteSkinPath": "ForTrainingNG"
 	},
 	"ResourceModuleSkinStyles": {
-		"example": {
+		"fortrainingng": {
 			"+ext.echo.styles.badge": "resources/extensions/echo.styles.badge.less"
 		}
 	},
