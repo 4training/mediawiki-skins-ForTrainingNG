@@ -103,7 +103,7 @@
     .querySelector(".form")
     .addEventListener("submit", (e, { target } = e) => {
       e.preventDefault();
-      const url = new URL(location.href);
+      const url = new URL(location.origin);
       const params = url.searchParams;
       params.append("search", target.querySelector("input").value);
       params.append("title", "Special:Search");
@@ -117,6 +117,7 @@
       const lang = a.getAttribute("lang");
       const [cookie] = document.cookie.match(/\w+_mw_language/);
       document.cookie = `${cookie}=${lang}`;
+      document.cookie = `${cookie}=${lang};path=${location.pathname}`;
       console.log(`${cookie}=${lang}`)
       location.reload();
     })
