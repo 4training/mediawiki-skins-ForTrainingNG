@@ -98,11 +98,29 @@
 
   resizeObserver.observe(document.body);
 
+  // Make Search work
   document
-    .querySelector(".form input")
-    .addEventListener("input", ({ target }) => {
-      target.form.setAttribute("action", target.value);
+    .querySelector(".form")
+    .addEventListener("submit", (e, { target } = e) => {
+      e.preventDefault();
+      const url = new URL(location.href);
+      const params = url.searchParams;
+      params.append("search", target.querySelector("input").value);
+      params.append("title", "Special:Search");
+      params.append("fulltext", "Search");
+      window.location = url.toString();
     });
+
+  // Set navigation / UI language when changing article language
+  Array.from(document.querySelectorAll(".mw-pt-languages-list a"), a => {
+    a.addEventListener("click", () => {
+      const lang = a.getAttribute("lang");
+      const [cookie] = document.cookie.match(/\w+_mw_language/);
+      document.cookie = `${cookie}=${lang}`;
+      console.log(`${cookie}=${lang}`)
+      location.reload();
+    })
+  })
 </script>
 <style type="text/tailwindcss">
   body {
@@ -110,7 +128,7 @@
     grid-template-areas:
       "head head"
       "aside main";
-    grid-template-columns: minmax(0, max-content) 1fr;
+    grid-template-columns: minmax(0, min-content) 1fr;
   }
   .topline {
     z-index: 2;
@@ -135,6 +153,9 @@
   article > div {
     @apply relative;
     z-index: 1;
+  }
+  footer ul:last-of-type {
+    @apply flex place-self-end gap-2 justify-evenly;
   }
 
   @media (min-width: 640px) {
@@ -251,12 +272,12 @@
 >
   <article>
     <picture>
-			<img
-				src="/mediawiki/skins/ForTrainingNG/images/4training.png"
-				width="650"
-				height="101"
-				alt="4Training Schriftzug"
-			/>
+      <img
+        src="/mediawiki/skins/ForTrainingNG/images/4training.png"
+        width="650"
+        height="101"
+        alt="4Training Schriftzug"
+      />
     </picture>
     <a href="/" aria-label="Zur Startseite"
       ><img
@@ -300,12 +321,32 @@
         </button>
       </form>
 
-      <h1 class="firstHeading" {{{html-user-language-attributes}}}>
-        {{{html-title}}}
-      </h1>
+      <h1 {{{html-user-language-attributes}}}>{{{html-title}}}</h1>
       {{{html-body-content}}}
+
+      <p class="text-center text-xl">
+        <i class="material-icons align-middle">
+          rate_review
+        </i>
+        <a class="!text-blue-400" href="/Special:contact"
+          >Hast du noch Fragen oder Feedback? Komm mit uns ins Gespräch!</a
+        >
+      </p>
     </div>
-		<p class="text-center text-xl text-red-400"><a href="/Special:contact">Hast du noch Fragen oder Feedback? Komm mit uns ins Gespräch!</a></p>
-		<p class="mt-2"><a href="/Special:UserLogin">Login</a></p>
   </article>
 </main>
+
+<footer class="grid p-8 bg-gray-300 col-span-2">
+
+  {{#data-footer}}
+    <div id="place-self-center text-xl">
+      {{#data-info}}{{>FooterList}}{{/data-info}}
+      <span class="mt-2"><a href="/Special:UserLogin">Login</a></span>
+      {{#data-places}}{{>FooterList}}{{/data-places}} 
+    </div>
+
+    {{#data-icons}}
+      {{>FooterList}}
+    {{/data-icons}}
+  {{/data-footer}}
+</footer>
