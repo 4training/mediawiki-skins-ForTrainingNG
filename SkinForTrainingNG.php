@@ -5,21 +5,26 @@ use Sanitizer;
 use Linker;
 use Html;
 
-/**
- * Makes various template data available so that data in 1.36 is available in 1.35.
+/*
+ * Some customizations for our Skin: All "real" code changes are marked with custom4training
+ * The rest is just copied from SkinMustache or Skin
  */
 class SkinForTrainingNG extends SkinMustache {
 
+	/*
+	 * custom4training: Overriding this function to do some customizations
+	 */
 	protected function getPortletData( $name, array $items ) {
 		if (($name === 'tb') && !$this->getSkin()->getUser()->isLoggedIn()) {
 			// Show toolbar only for logged-in users
 			return null;
 		} else {
-			return $this->getPortletDataItem( $name, $items);
+			return $this->getPortletDataCustom( $name, $items);
 		}
 	}
 
-	protected function getPortletDataItem( $name, array $items ) {
+	// This is just copied from the SkinMustache class
+	protected function getPortletDataCustom( $name, array $items ) {
 		// Monobook and Vector historically render this portal as an element with ID p-cactions
 		// This inconsistency is regretful from a code point of view
 		// However this ensures compatibility with gadgets.
@@ -63,7 +68,7 @@ class SkinForTrainingNG extends SkinMustache {
 		}
 
 		foreach ( $items as $key => $item ) {
-			$data['html-items'] .= $this->makeListItems( $key, $item );
+			$data['html-items'] .= $this->makeListItemCustom( $key, $item );
 		}
 
 		$data['label'] = $this->portletLabel( $name );
@@ -72,6 +77,7 @@ class SkinForTrainingNG extends SkinMustache {
 		return $data;
 	}
 
+	// This is just copied from the SkinMustache class
 	protected function portletLabel( $name ) {
 		// For historic reasons for some menu items,
 		// there is no language key corresponding with its menu key.
@@ -86,8 +92,14 @@ class SkinForTrainingNG extends SkinMustache {
 		return $labelText;
 	}
 
-
-	protected function makeListItems( $key, $item, $options = [] ) {
+	/*
+	 * This is taken from the Skin class
+	 * The makeListItem() function is not supposed to be overriden but we want to change some behaviour
+	 * That's why we copied a lot of code to be able to do that
+	 * Main change: instead of <li><a href="...">menu item</a></li> we want to generate just
+	 * <a href="...">menu item</a>
+	 */
+	protected function makeListItemCustom( $key, $item, $options = [] ) {
 		// In case this is still set from SkinTemplate, we don't want it to appear in
 		// the HTML output (normally removed in SkinTemplate::buildContentActionUrls())
 		unset( $item['redundant'] );
@@ -142,17 +154,21 @@ class SkinForTrainingNG extends SkinMustache {
 			$attrs['title'] = $item['itemtitle'];
 		}
 
+		// custom4training: Workaround to remove the first item of navigation sub-menu
+		// TODO: Remove this once the CustomSidebar extension is improved
 		if ($key == 0) {
 			return "";
 		}
 
-		$attrs = array("class"=>"block text-lg p-2 hover:bg-gray-200", "href"=>$link["href"]);
+		// custom4training: No <li> around the links
+		$attrs = array("class" => "block text-lg p-2 hover:bg-gray-200", "href" => $link["href"]);
 		if ( !isset( $link['text'] ) ) {
 			$text = $item['text'] ?? $this->msg( $item['msg'] ?? $key )->text();
 			return Html::rawElement('a', $attrs, htmlspecialchars( $text ) );
 		} else {
 			return Html::rawElement('a', $attrs, $link["text"] );
 		}
+		// return Html::rawElement( $options['tag'] ?? 'li', $attrs, $html );
 	}
 
 
