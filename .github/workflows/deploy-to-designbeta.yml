@@ -1,0 +1,31 @@
+# Deploys the skin to https://designbeta.4training.net
+name: deploy-to-designbeta
+
+# Run the workflow on push events for the main branch
+on:
+  push:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Install the SSH key (needs to be done only once)
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known-hosts: 'just-a-placeholder'
+      - name: Adding Known Hosts
+        run: cat ${{ secrets.SSH_HOST_HASH }} >> ~/.ssh/known_hosts
+      - name: Deploy
+        # We connect via SSH but in the authorized_keys on the server there is command= specified
+        # So only exactly this command gets executed and nothing else can be done with this SSH private key
+        # The command pulls from this repository
+        run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
