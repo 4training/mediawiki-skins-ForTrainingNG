@@ -23,6 +23,7 @@
 					"skins.fortrainingng"
 				],
 				"messages": [
+					"fortrainingng-logo-aria-label",
 					"sitetitle",
 					"search",
 					"tagline",
