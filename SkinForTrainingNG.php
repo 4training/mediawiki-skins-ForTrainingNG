@@ -11,6 +11,15 @@ use Html;
  */
 class SkinForTrainingNG extends SkinMustache {
 
+	/** @inheritDoc */
+	public function __construct( $options ) {
+		global $wgVersion;
+		if ( version_compare( $wgVersion, '1.38', '<' ) ) {
+			$options['templateDirectory'] = 'skins/ForTrainingNG/templates';
+		}
+		parent::__construct( $options );
+	}
+
 	/*
 	 * custom4training: Overriding this function to do some customizations
 	 */
