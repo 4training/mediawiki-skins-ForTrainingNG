@@ -116,6 +116,9 @@ class SkinForTrainingNG extends SkinMustache {
 		if ( isset( $item['links'] ) ) {
 			$links = [];
 			foreach ( $item['links'] as $linkKey => $link ) {
+				if ( !is_string( $linkKey ) ) {
+					$linkKey = $key . '-link-' . $linkKey;
+				}
 				$links[] = $this->makeLink( $linkKey, $link, $options );
 			}
 			$html = implode( ' ', $links );
