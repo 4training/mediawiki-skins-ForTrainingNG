@@ -170,7 +170,7 @@ class SkinForTrainingNG extends SkinMustache {
 		}
 
 		// custom4training: No <li> around the links
-		$attrs = array("class" => "block text-lg p-2 hover:bg-gray-200", "href" => $link["href"]);
+		$attrs = array("class" => "block text-lg p-2 hover:bg-gray-200", "href" => $link["href"] ?? '#' );
 		if ( !isset( $link['text'] ) ) {
 			$text = $item['text'] ?? $this->msg( $item['msg'] ?? $key )->text();
 			return Html::rawElement('a', $attrs, htmlspecialchars( $text ) );
