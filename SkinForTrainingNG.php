@@ -24,7 +24,7 @@ class SkinForTrainingNG extends SkinMustache {
 	 * custom4training: Overriding this function to do some customizations
 	 */
 	protected function getPortletData( $name, array $items ) {
-		if (($name === 'tb') && !$this->getSkin()->getUser()->isLoggedIn()) {
+		if (($name === 'tb') && !$this->getSkin()->getUser()->isRegistered()) {
 			// Show toolbar only for logged-in users
 			return null;
 		} else {
