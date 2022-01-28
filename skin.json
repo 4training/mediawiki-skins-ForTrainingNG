@@ -19,11 +19,11 @@
 			"args": [ {
 				"name": "fortrainingng",
 				"responsive": true,
-				"templateDirectory": "skins/ForTrainingNG/templates",
 				"styles": [
 					"skins.fortrainingng"
 				],
 				"messages": [
+					"fortrainingng-logo-aria-label",
 					"sitetitle",
 					"search",
 					"tagline",

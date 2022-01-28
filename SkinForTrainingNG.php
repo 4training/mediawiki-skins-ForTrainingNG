@@ -11,11 +11,20 @@ use Html;
  */
 class SkinForTrainingNG extends SkinMustache {
 
+	/** @inheritDoc */
+	public function __construct( $options ) {
+		global $wgVersion;
+		if ( version_compare( $wgVersion, '1.38', '<' ) ) {
+			$options['templateDirectory'] = 'skins/ForTrainingNG/templates';
+		}
+		parent::__construct( $options );
+	}
+
 	/*
 	 * custom4training: Overriding this function to do some customizations
 	 */
 	protected function getPortletData( $name, array $items ) {
-		if (($name === 'tb') && !$this->getSkin()->getUser()->isLoggedIn()) {
+		if (($name === 'tb') && !$this->getSkin()->getUser()->isRegistered()) {
 			// Show toolbar only for logged-in users
 			return null;
 		} else {
@@ -107,6 +116,9 @@ class SkinForTrainingNG extends SkinMustache {
 		if ( isset( $item['links'] ) ) {
 			$links = [];
 			foreach ( $item['links'] as $linkKey => $link ) {
+				if ( !is_string( $linkKey ) ) {
+					$linkKey = $key . '-link-' . $linkKey;
+				}
 				$links[] = $this->makeLink( $linkKey, $link, $options );
 			}
 			$html = implode( ' ', $links );
@@ -161,7 +173,7 @@ class SkinForTrainingNG extends SkinMustache {
 		}
 
 		// custom4training: No <li> around the links
-		$attrs = array("class" => "block text-lg p-2 hover:bg-gray-200", "href" => $link["href"]);
+		$attrs = array("class" => "block text-lg p-2 hover:bg-gray-200", "href" => $link["href"] ?? '#' );
 		if ( !isset( $link['text'] ) ) {
 			$text = $item['text'] ?? $this->msg( $item['msg'] ?? $key )->text();
 			return Html::rawElement('a', $attrs, htmlspecialchars( $text ) );

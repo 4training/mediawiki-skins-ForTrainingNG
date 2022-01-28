@@ -273,20 +273,24 @@
 >
   <article>
     <picture>
+    {{#data-logos}}
+      {{#wordmark}}
       <img
-        src="/mediawiki/skins/ForTrainingNG/images/4training.png"
-        width="650"
-        height="101"
-        alt="4Training Schriftzug"
+        src="{{src}}"
+        width="{{width}}"
+        height="{{height}}"
+        alt="{{msg-sitetitle}}"
       />
     </picture>
-    <a href="/" aria-label="Zur Startseite"
+    <a href="/" aria-label="{{msg-fortrainingng-logo-aria-label}}"
       ><img
         class="absolute top-0 filter blur-3xl md:ml-0"
-        src="/mediawiki/skins/ForTrainingNG/images/4training.png"
+        src="{{src}}"
         aria-hidden="true"
         alt=""
     /></a>
+    {{/wordmark}}
+    {{/data-logos}}
 
     <div class="prose prose-sm my-10 sm:prose lg:prose-lg xl:prose-2xl mx-auto">
       <div class="mb-2 text-right">
