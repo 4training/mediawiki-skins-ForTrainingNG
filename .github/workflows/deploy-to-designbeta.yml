@@ -1,4 +1,5 @@
 # Deploys the skin to https://designbeta.4training.net
+# Thanks to https://zellwk.com/blog/github-actions-deploy/
 name: deploy-to-designbeta
 
 # Run the workflow on push events for the main branch
@@ -8,6 +9,9 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+
+# Prevent concurrent deployment (e.g. when merging a PR with several commits)
+concurrency: deploy-to-designbeta
 
 jobs:
   deploy:
