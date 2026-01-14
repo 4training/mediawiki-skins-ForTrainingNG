@@ -2,7 +2,7 @@
 	"@metadata": {
 		"authors": [ "..." ]
 	},
-	"skinname-fortrainingng": "ForTrainingNG",
-	"fortrainingng-desc": "4training.net Next Generation skin",
-	"fortrainingng-logo-aria-label": "Zur Startseite"
+	"skinname-fortraining": "ForTraining",
+	"fortraining-desc": "4training.net skin",
+	"fortraining-logo-aria-label": "Zur Startseite"
 }

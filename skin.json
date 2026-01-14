@@ -1,29 +1,29 @@
 {
-	"name": "ForTrainingNG",
+	"name": "ForTraining",
 	"version": "1.0",
 	"author": "...",
-	"url": "https://github.com/4training/mediawiki-skins-ForTrainingNG",
-	"descriptionmsg": "fortrainingng-desc",
-	"namemsg": "skinname-fortrainingng",
+	"url": "https://github.com/4training/mediawiki-skins-ForTraining",
+	"descriptionmsg": "fortraining-desc",
+	"namemsg": "skinname-fortraining",
 	"license-name": "CC0-1.0",
 	"type": "skin",
 	"requires": {
 		"MediaWiki": ">= 1.35.0"
 	},
 	"AutoloadClasses": {
-		"ForTrainingNG\\SkinForTrainingNG": "SkinForTrainingNG.php"
+		"ForTraining\\SkinForTraining": "SkinForTraining.php"
 	},
 	"ValidSkinNames": {
-		"fortrainingng": {
-			"class": "ForTrainingNG\\SkinForTrainingNG",
+		"fortraining": {
+			"class": "ForTraining\\SkinForTraining",
 			"args": [ {
-				"name": "fortrainingng",
+				"name": "fortraining",
 				"responsive": true,
 				"styles": [
-					"skins.fortrainingng"
+					"skins.fortraining"
 				],
 				"messages": [
-					"fortrainingng-logo-aria-label",
+					"fortraining-logo-aria-label",
 					"sitetitle",
 					"search",
 					"tagline",
@@ -36,12 +36,12 @@
 		}
 	},
 	"MessagesDirs": {
-		"ForTrainingNG": [
+		"ForTraining": [
 			"i18n"
 		]
 	},
 	"ResourceModules": {
-		"skins.fortrainingng": {
+		"skins.fortraining": {
 			"class": "ResourceLoaderSkinModule",
 			"features": {
 				"normalize": true,
@@ -65,7 +65,7 @@
 				}
 			}
 		},
-		"skins.fortrainingng.js": {
+		"skins.fortraining.js": {
 			"scripts": [
 				"resources/main.js"
 			]
@@ -73,10 +73,10 @@
 	},
 	"ResourceFileModulePaths": {
 		"localBasePath": "",
-		"remoteSkinPath": "ForTrainingNG"
+		"remoteSkinPath": "ForTraining"
 	},
 	"ResourceModuleSkinStyles": {
-		"fortrainingng": {
+		"fortraining": {
 			"+ext.echo.styles.badge": "resources/extensions/echo.styles.badge.less"
 		}
 	},

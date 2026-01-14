@@ -1,5 +1,5 @@
 <?php
-namespace ForTrainingNG;
+namespace ForTraining;
 use SkinMustache;
 use Sanitizer;
 use Linker;
@@ -9,13 +9,13 @@ use Html;
  * Some customizations for our Skin: All "real" code changes are marked with custom4training
  * The rest is just copied from SkinMustache or Skin
  */
-class SkinForTrainingNG extends SkinMustache {
+class SkinForTraining extends SkinMustache {
 
 	/** @inheritDoc */
 	public function __construct( $options ) {
 		global $wgVersion;
 		if ( version_compare( $wgVersion, '1.38', '<' ) ) {
-			$options['templateDirectory'] = 'skins/ForTrainingNG/templates';
+			$options['templateDirectory'] = 'skins/ForTraining/templates';
 		}
 		parent::__construct( $options );
 	}
